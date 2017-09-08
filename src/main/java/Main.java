@@ -5,6 +5,7 @@ public class Main {
     public static void main(String[] args) {
         port(getHerokuAssignedPort());
         get("/hello", (req, res) -> "Hello Heroku World");
+        get("/lalaa/:name", (req, res) -> req.params(":name") + " ya homo");
     }
 
     static int getHerokuAssignedPort() {
