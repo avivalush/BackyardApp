@@ -1,4 +1,4 @@
-package Services.SearchService.SerachProviders;
+package Utils.Common;
 
 public enum ProvidersEnum {
     Amazon,

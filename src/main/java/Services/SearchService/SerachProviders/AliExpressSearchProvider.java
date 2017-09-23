@@ -1,5 +1,10 @@
 package Services.SearchService.SerachProviders;
 
+import DomainEntities.SearchResultEntity;
+
+import java.io.IOException;
+import java.util.List;
+
 public class AliExpressSearchProvider implements ISearchProvider {
 
     private static final Object lock = new Object();
@@ -18,5 +23,10 @@ public class AliExpressSearchProvider implements ISearchProvider {
 
     private AliExpressSearchProvider() {
 
+    }
+
+    @Override
+    public List<SearchResultEntity> search(String searchString) throws IOException {
+        return null;
     }
 }
