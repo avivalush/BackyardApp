@@ -41,7 +41,7 @@ public class AmazonSearchProvider implements ISearchProvider {
 
     }
 
-    public List<SearchResultEntity> search(String searchURL) throws IOException {
+    public List<SearchResultEntity> search(String searchURL) throws Exception {
         List<SearchResultEntity> searchResults = new ArrayList<SearchResultEntity>();
 
         String xmlResult = (new GetRequest()).get(instance.buildGetRequest(searchURL));

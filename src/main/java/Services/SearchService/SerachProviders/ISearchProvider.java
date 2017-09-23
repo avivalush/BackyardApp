@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ISearchProvider {
 
-    public List<SearchResultEntity> search(String searchString) throws IOException;
+    public List<SearchResultEntity> search(String searchString) throws Exception;
 
 }
