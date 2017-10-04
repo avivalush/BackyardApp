@@ -10,7 +10,7 @@ import static org.apache.http.params.CoreProtocolPNames.USER_AGENT;
 
 public class GetRequest {
 
-    public String get(String urlRequest) throws IOException {
+    public static String get(String urlRequest) throws IOException {
 
         URL obj = new URL(urlRequest);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -22,8 +22,6 @@ public class GetRequest {
         con.setRequestProperty("User-Agent", USER_AGENT);
 
         int responseCode = con.getResponseCode();
-        System.out.println("\nSending 'GET' request to URL : " + urlRequest);
-        System.out.println("Response Code : " + responseCode);
 
         BufferedReader in = new BufferedReader(
                 new InputStreamReader(con.getInputStream()));
