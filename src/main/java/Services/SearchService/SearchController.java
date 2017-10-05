@@ -1,9 +1,11 @@
 package Services.SearchService;
 
+import DomainEntities.SearchResultEntity;
 import Services.SearchService.SerachProviders.*;
 import Utils.Common.ProvidersEnum;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class SearchController {
 
@@ -29,4 +31,38 @@ public class SearchController {
         searchProviders.put(ProvidersEnum.EBay, EBaySearchProvider.getInstance());
     }
 
+    public List<SearchResultEntity> search(ProvidersEnum provider, String term) {
+        //ISearchProvider providerObject = ProviderFactory.getProviderByName(provider);
+        ISearchProvider providerObject = searchProviders.getOrDefault(provider, null);
+
+        if (provider == null) {
+            return null;
+        }
+
+        try {
+            return providerObject.search(term);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public ProvidersEnum providerStringToEnum(String providerString) {
+        ProvidersEnum providersEnum = ProvidersEnum.None;
+
+        switch (providerString.toUpperCase()) {
+            case "ALIEXPRESS":
+                providersEnum = ProvidersEnum.AliExpress;
+                break;
+            case "AMAZON":
+                providersEnum = ProvidersEnum.Amazon;
+                break;
+            case "EBAY":
+                providersEnum = ProvidersEnum.EBay;
+                break;
+            default:
+                providersEnum = ProvidersEnum.None;
+        }
+
+        return providersEnum;
+    }
 }
