@@ -1,5 +1,8 @@
 import static spark.Spark.*;
 
+import Services.SearchService.SearchController;
+import Services.SearchService.SerachProviders.AmazonSearchProvider;
+import Services.SearchService.SerachProviders.ProviderFactory;
 import org.apache.commons.logging.impl.Log4JLogger;
 import org.eclipse.jetty.util.log.Log;
 //tomer note
@@ -14,6 +17,10 @@ public class Main {
         Log.getLog().debug("!!!!!!!!!!!!!!!!%d!!!!!!!!!!!", portNumber);
         get("/lalaa/:name",
                 (req, res) -> req.params(":name") + " ya homo", new JsonTransformer());
+        get("/search/:provider/term/:term",
+                (req, res) -> SearchController.getInstance().search(SearchController.getInstance().providerStringToEnum(req.params(":provider")),
+                        req.params(":term")),
+                new JsonTransformer());
     }
 
     static int getHerokuAssignedPort() {

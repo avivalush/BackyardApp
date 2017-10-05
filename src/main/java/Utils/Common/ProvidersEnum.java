@@ -3,5 +3,7 @@ package Utils.Common;
 public enum ProvidersEnum {
     Amazon,
     EBay,
-    AliExpress
+    AliExpress,
+    All,
+    None
 }
