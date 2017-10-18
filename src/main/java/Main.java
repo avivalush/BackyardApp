@@ -21,6 +21,9 @@ public class Main {
                 (req, res) -> SearchController.getInstance().search(SearchController.getInstance().providerStringToEnum(req.params(":provider")),
                         req.params(":term")),
                 new JsonTransformer());
+        get("search/all/term/:term",
+                (req, res) -> SearchController.getInstance().search(req.params(":term")),
+                new JsonTransformer());
     }
 
     static int getHerokuAssignedPort() {

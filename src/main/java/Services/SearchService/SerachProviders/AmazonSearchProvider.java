@@ -63,8 +63,7 @@ public class AmazonSearchProvider implements ISearchProvider {
     public List<SearchResultEntity> search(String searchString) throws Exception {
         String response = getResponse(searchString);
         IParser parser = new XMLParser();
-        parser.parseSearchResults(response);
-        return null;
+        return parser.parseSearchResults(response);
     }
 
     private String getResponse(String searchString) throws IOException, InvalidKeyException, NoSuchAlgorithmException {
