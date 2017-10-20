@@ -37,7 +37,10 @@ public class SearchController {
 
         for (ISearchProvider provider : searchProviders.values()) {
             try {
-                searchResultEntities.addAll(provider.search(term));
+                List<SearchResultEntity> resultsForProvider = provider.search(term);
+                if (resultsForProvider != null) {
+                    searchResultEntities.addAll(resultsForProvider);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -20,19 +20,39 @@ public class XMLParser implements IParser {
         List<SearchResultEntity> searchResultEntityList = new ArrayList<SearchResultEntity>();
         Document xmlDocument = loadXMLFromString(responseString);
         NodeList itemsNodes = xmlDocument.getElementsByTagName("Item");
+
         for (int i = 0; i < itemsNodes.getLength(); i++) {
             Element item = (Element)itemsNodes.item(i);
-            String url = item.getElementsByTagName("DetailPageURL").item(0).getTextContent();
+            if (item == null) {
+                break;
+            }
+
+            // subnodes
             NodeList picture = xmlDocument.getElementsByTagName("LargeImage");
-            String pictureUrl = ((Element)picture.item(0)).getElementsByTagName("URL").item(0).getTextContent();
-            int salesRank = Integer.parseInt(item.getElementsByTagName("SalesRank").item(0).getTextContent());
             NodeList features = item.getElementsByTagName("Feature");
-            String description = makeDescription(features);
             NodeList formattedPrice = item.getElementsByTagName("FormattedPrice");
-            String price = ((Element)formattedPrice.item(0)).getTextContent();
+            Node priceNode = ((Element)formattedPrice.item(0));
+            Element brandElement = ((Element)item.getElementsByTagName("Brand").item(0));
+            Node pictureNode = ((Element)picture.item(0)).getElementsByTagName("URL").item(0);
+            Node titleNode = ((Element)item.getElementsByTagName("Title").item(0));
+            Node salesRankNode = item.getElementsByTagName("SalesRank").item(0);
+            Node urlNode = item.getElementsByTagName("DetailPageURL").item(0);
+
+            if (picture == null || features == null || formattedPrice == null || priceNode == null
+                    || brandElement == null || pictureNode == null  || titleNode == null || salesRankNode == null
+                    || urlNode == null) {
+                break;
+            }
+
+            String price = priceNode.getTextContent();
             double numberPrice = Double.parseDouble(price.substring(1, price.length()));
-            String brand = ((Element)item.getElementsByTagName("Brand").item(0)).getTextContent();
-            String title = ((Element)item.getElementsByTagName("Title").item(0)).getTextContent();
+            String pictureUrl = pictureNode.getTextContent();
+            String description = makeDescription(features);
+            String brand = brandElement.getTextContent();
+            String title = titleNode.getTextContent();
+            int salesRank = Integer.parseInt(salesRankNode.getTextContent());
+            String url = urlNode.getTextContent();
+
             String condition = ((Element)item.getElementsByTagName("Condition").item(0)).getTextContent();
             SearchResultEntity searchResultEntity = new SearchResultEntity(url, pictureUrl, numberPrice, salesRank,
                     -1, ProvidersEnum.Amazon, description, title, condition, -1);
