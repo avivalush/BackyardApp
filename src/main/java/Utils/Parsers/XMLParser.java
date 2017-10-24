@@ -1,6 +1,7 @@
 package Utils.Parsers;
 
 import DomainEntities.SearchResultEntity;
+import Utils.Common.ProvidersEnum;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -10,20 +11,67 @@ import org.xml.sax.InputSource;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.List;
 
 public class XMLParser implements IParser {
     @Override
     public List<SearchResultEntity> parseSearchResults(String responseString) throws Exception {
+        List<SearchResultEntity> searchResultEntityList = new ArrayList<SearchResultEntity>();
         Document xmlDocument = loadXMLFromString(responseString);
         NodeList itemsNodes = xmlDocument.getElementsByTagName("Item");
+
         for (int i = 0; i < itemsNodes.getLength(); i++) {
             Element item = (Element)itemsNodes.item(i);
-            String url = item.getElementsByTagName("DetailPageURL").item(0).getTextContent();
-            System.out.println(url);
+            if (item == null) {
+                break;
+            }
+
+            // subnodes
+            NodeList picture = xmlDocument.getElementsByTagName("LargeImage");
+            NodeList features = item.getElementsByTagName("Feature");
+            NodeList formattedPrice = item.getElementsByTagName("FormattedPrice");
+            Node priceNode = ((Element)formattedPrice.item(0));
+            Element brandElement = ((Element)item.getElementsByTagName("Brand").item(0));
+            Node pictureNode = ((Element)picture.item(0)).getElementsByTagName("URL").item(0);
+            Node titleNode = ((Element)item.getElementsByTagName("Title").item(0));
+            Node salesRankNode = item.getElementsByTagName("SalesRank").item(0);
+            Node urlNode = item.getElementsByTagName("DetailPageURL").item(0);
+
+            if (picture == null || features == null || formattedPrice == null || priceNode == null
+                    || brandElement == null || pictureNode == null  || titleNode == null || salesRankNode == null
+                    || urlNode == null) {
+                break;
+            }
+
+            String price = priceNode.getTextContent();
+            double numberPrice = Double.parseDouble(price.substring(1, price.length()));
+            String pictureUrl = pictureNode.getTextContent();
+            String description = makeDescription(features);
+            String brand = brandElement.getTextContent();
+            String title = titleNode.getTextContent();
+            int salesRank = Integer.parseInt(salesRankNode.getTextContent());
+            String url = urlNode.getTextContent();
+
+            String condition = ((Element)item.getElementsByTagName("Condition").item(0)).getTextContent();
+            SearchResultEntity searchResultEntity = new SearchResultEntity(url, pictureUrl, numberPrice, salesRank,
+                    -1, ProvidersEnum.Amazon, description, title, condition, -1);
+            searchResultEntityList.add(searchResultEntity);
         }
 
-        return null;
+        return searchResultEntityList;
+    }
+
+    private String makeDescription(NodeList features) {
+        StringBuilder description = new StringBuilder();
+
+        for (int i = 0; i < features.getLength(); i++) {
+            Element item = (Element) features.item(i);
+            String feature = item.getTextContent();
+            description.append(feature + ". ");
+        }
+
+        return description.toString();
     }
 
     public static Document loadXMLFromString(String xml) throws Exception

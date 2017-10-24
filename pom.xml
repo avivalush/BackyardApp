@@ -30,19 +30,9 @@
             <version>4.0.1</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpcore</artifactId>
-            <version>4.0.1</version>
-        </dependency>
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -90,7 +80,7 @@
                 <version>0.4.4</version>
                 <configuration>
                     <jdkVersion>1.8</jdkVersion>
-                    <appName>spark-backyard-server</appName>
+                    <appName>buyfi-server</appName>
                     <processTypes>
                         <!-- Tell Heroku how to launch your application -->
                         <web>java -jar ./target/my-app-1.0-jar-with-dependencies.jar</web>

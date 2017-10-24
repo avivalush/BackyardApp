@@ -4,6 +4,7 @@ import DomainEntities.SearchResultEntity;
 import Services.SearchService.SerachProviders.*;
 import Utils.Common.ProvidersEnum;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,18 +32,35 @@ public class SearchController {
         searchProviders.put(ProvidersEnum.EBay, EBaySearchProvider.getInstance());
     }
 
+    public List<SearchResultEntity> search(String term) {
+        List<SearchResultEntity> searchResultEntities = new ArrayList<SearchResultEntity>();
+
+        for (ISearchProvider provider : searchProviders.values()) {
+            try {
+                List<SearchResultEntity> resultsForProvider = provider.search(term);
+                if (resultsForProvider != null) {
+                    searchResultEntities.addAll(resultsForProvider);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return searchResultEntities;
+    }
+
     public List<SearchResultEntity> search(ProvidersEnum provider, String term) {
         //ISearchProvider providerObject = ProviderFactory.getProviderByName(provider);
         ISearchProvider providerObject = searchProviders.getOrDefault(provider, null);
 
         if (provider == null) {
-            return null;
+            return new ArrayList<SearchResultEntity>();
         }
 
         try {
             return providerObject.search(term);
         } catch (Exception e) {
-            return null;
+            return new ArrayList<SearchResultEntity>();
         }
     }
 
