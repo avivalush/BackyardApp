@@ -33,16 +33,11 @@ public class XMLParser implements IParser {
             NodeList formattedPrice = item.getElementsByTagName("FormattedPrice");
             Node priceNode = ((Element)formattedPrice.item(0));
             Element brandElement = ((Element)item.getElementsByTagName("Brand").item(0));
+            Element conditionElement = ((Element)item.getElementsByTagName("Condition").item(0));
             Node pictureNode = ((Element)picture.item(0)).getElementsByTagName("URL").item(0);
             Node titleNode = ((Element)item.getElementsByTagName("Title").item(0));
             Node salesRankNode = item.getElementsByTagName("SalesRank").item(0);
             Node urlNode = item.getElementsByTagName("DetailPageURL").item(0);
-
-            /*if (picture == null || features == null || formattedPrice == null || priceNode == null
-                    || brandElement == null || pictureNode == null  || titleNode == null || salesRankNode == null
-                    || urlNode == null) {
-                continue;
-            }*/
 
             String price = (priceNode != null) ? priceNode.getTextContent() : "";
             String numberPrice = (price != null) ? price.substring(1, price.length()) : "-1";
@@ -52,8 +47,8 @@ public class XMLParser implements IParser {
             String title = (titleNode != null) ? titleNode.getTextContent() : "";
             int salesRank = (salesRankNode != null) ? Integer.parseInt(salesRankNode.getTextContent()) : -1;
             String url = (urlNode != null) ? urlNode.getTextContent() : "";
+            String condition = (conditionElement != null) ? conditionElement.getTextContent() : "";
 
-            String condition = ((Element)item.getElementsByTagName("Condition").item(0)).getTextContent();
             SearchResultEntity searchResultEntity = new SearchResultEntity(url, pictureUrl, numberPrice, salesRank,
                     -1, ProvidersEnum.Amazon, description, title, condition, -1);
             searchResultEntityList.add(searchResultEntity);
