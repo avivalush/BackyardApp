@@ -24,7 +24,7 @@ public class XMLParser implements IParser {
         for (int i = 0; i < itemsNodes.getLength(); i++) {
             Element item = (Element)itemsNodes.item(i);
             if (item == null) {
-                break;
+                continue;
             }
 
             // subnodes
@@ -38,20 +38,20 @@ public class XMLParser implements IParser {
             Node salesRankNode = item.getElementsByTagName("SalesRank").item(0);
             Node urlNode = item.getElementsByTagName("DetailPageURL").item(0);
 
-            if (picture == null || features == null || formattedPrice == null || priceNode == null
+            /*if (picture == null || features == null || formattedPrice == null || priceNode == null
                     || brandElement == null || pictureNode == null  || titleNode == null || salesRankNode == null
                     || urlNode == null) {
-                break;
-            }
+                continue;
+            }*/
 
-            String price = priceNode.getTextContent();
-            double numberPrice = Double.parseDouble(price.substring(1, price.length()));
-            String pictureUrl = pictureNode.getTextContent();
-            String description = makeDescription(features);
-            String brand = brandElement.getTextContent();
-            String title = titleNode.getTextContent();
-            int salesRank = Integer.parseInt(salesRankNode.getTextContent());
-            String url = urlNode.getTextContent();
+            String price = (priceNode != null) ? priceNode.getTextContent() : "";
+            double numberPrice = (price != null) ? Double.parseDouble(price.substring(1, price.length())) : -1;
+            String pictureUrl = (pictureNode != null) ? pictureNode.getTextContent() : "";
+            String description = (features != null) ? makeDescription(features) : "";
+            String brand = (brandElement != null) ? brandElement.getTextContent() : "";
+            String title = (titleNode != null) ? titleNode.getTextContent() : "";
+            int salesRank = (salesRankNode != null) ? Integer.parseInt(salesRankNode.getTextContent()) : -1;
+            String url = (urlNode != null) ? urlNode.getTextContent() : "";
 
             String condition = ((Element)item.getElementsByTagName("Condition").item(0)).getTextContent();
             SearchResultEntity searchResultEntity = new SearchResultEntity(url, pictureUrl, numberPrice, salesRank,
