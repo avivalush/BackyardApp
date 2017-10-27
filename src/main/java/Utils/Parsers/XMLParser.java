@@ -45,7 +45,7 @@ public class XMLParser implements IParser {
             }*/
 
             String price = (priceNode != null) ? priceNode.getTextContent() : "";
-            double numberPrice = (price != null) ? Double.parseDouble(price.substring(1, price.length())) : -1;
+            String numberPrice = (price != null) ? price.substring(1, price.length()) : "-1";
             String pictureUrl = (pictureNode != null) ? pictureNode.getTextContent() : "";
             String description = (features != null) ? makeDescription(features) : "";
             String brand = (brandElement != null) ? brandElement.getTextContent() : "";
