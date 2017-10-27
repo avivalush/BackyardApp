@@ -7,7 +7,7 @@ public class SearchResultEntity {
     private String mAffiliateURL;
     private String mPictureURL;
     // in dollars
-    private double mPrice;
+    private String mPrice;
     private double mRank;
     private int mNumOfRanks;
     private ProvidersEnum mProvider;
@@ -16,7 +16,7 @@ public class SearchResultEntity {
     private String mCondition;
     private int mItemSold;
 
-    public SearchResultEntity(String affiliateURL, String pictureURL, double price, double rank, int numOfRanks,
+    public SearchResultEntity(String affiliateURL, String pictureURL, String price, double rank, int numOfRanks,
                               ProvidersEnum provider, String description, String title, String condition, int itemSold) {
         mAffiliateURL = affiliateURL;
         mPictureURL = pictureURL;
