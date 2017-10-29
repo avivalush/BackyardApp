@@ -44,14 +44,36 @@ public class EBaySearchProvider implements ISearchProvider {
     public List<SearchResultEntity> search(String searchString) throws IOException {
 
         FindItemsByKeywordsRequest request = new FindItemsByKeywordsRequest();
-        
+        SetOutputSelectors(request);
         //set request parameters
         request.setKeywords(searchString);
         SetItemsPerPage(request);
         SetAffiliatePrameters(request);
+        SetFilters(request);
         List<SearchResultEntity> ans  = GetSearchResults(request);
 
         return ans;
+    }
+
+    private void SetFilters(FindItemsByKeywordsRequest request) {
+        List<AspectFilter> filter = request.getAspectFilter();
+        AspectFilter aspectFilter = new AspectFilter();
+        aspectFilter.setAspectName("Brand");
+        aspectFilter.getAspectValueName().add("Acer");
+        filter.add(aspectFilter);
+    }
+
+    private void SetOutputSelectors(FindItemsByKeywordsRequest request) {
+        List<OutputSelectorType> outputSelector = request.getOutputSelector();
+        OutputSelectorType outputSelectorType = OutputSelectorType.SELLER_INFO;
+        OutputSelectorType outputSelectorType1 = OutputSelectorType.ASPECT_HISTOGRAM;
+
+        OutputSelectorType outputSelectorType2 = OutputSelectorType.CATEGORY_HISTOGRAM;
+
+        outputSelector.add(outputSelectorType);
+        outputSelector.add(outputSelectorType1);
+        outputSelector.add(outputSelectorType2);
+
     }
 
     private void SetAffiliatePrameters(FindItemsByKeywordsRequest request) {
@@ -63,12 +85,15 @@ public class EBaySearchProvider implements ISearchProvider {
 
     private List<SearchResultEntity> GetSearchResults(FindItemsByKeywordsRequest request) {
         FindItemsByKeywordsResponse result = serviceClient.findItemsByKeywords(request);
-
         //output result
         System.out.println("Ack = "+result.getAck());
         System.out.println("Find " + result.getSearchResult().getCount() + " items." );
         List<SearchItem> items = result.getSearchResult().getItem();
+        AspectHistogramContainer container = result.getAspectHistogramContainer();
+        CategoryHistogramContainer categoryHistogram = result.getCategoryHistogramContainer();
+
         List<SearchResultEntity> ans;
+
         for(SearchItem item : items) {
               SearchResultEntity toAdd = new SearchResultEntity();
         }
