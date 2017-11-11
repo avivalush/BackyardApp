@@ -1,5 +1,7 @@
 package Services.SearchService.SerachProviders;
 
+import DomainEntities.Request;
+import DomainEntities.Response;
 import DomainEntities.SearchResultEntity;
 import com.ebay.services.client.ClientConfig;
 import com.ebay.services.client.FindingServiceClientFactory;
@@ -53,6 +55,11 @@ public class EBaySearchProvider implements ISearchProvider {
         List<SearchResultEntity> ans  = GetSearchResults(request);
 
         return ans;
+    }
+
+    @Override
+    public Response searchWithBody(Request req) {
+        return null;
     }
 
     private void SetFilters(FindItemsByKeywordsRequest request) {
