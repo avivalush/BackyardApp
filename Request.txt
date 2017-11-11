@@ -1,0 +1,12 @@
+{
+	searchString:"",
+	Category: "",
+	subCategory:"",
+	filters:{
+	     filter1: "",
+	     filter2:""
+	},
+	itemsOrder:Enum
+}
+
+

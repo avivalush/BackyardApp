@@ -1,0 +1,10 @@
+{
+	searchEntities:{
+		Entity1:{},
+		Entity2:{}	
+	},
+	Filters:{
+		filter1:[option1,option2...],
+		filter2:[option1,option2...]
+	}
+}
