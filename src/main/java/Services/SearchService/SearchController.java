@@ -1,6 +1,6 @@
 package Services.SearchService;
 
-import DomainEntities.SearchResultEntity;
+import DomainEntities.*;
 import Services.SearchService.SerachProviders.*;
 import Utils.Common.ProvidersEnum;
 
@@ -82,5 +82,31 @@ public class SearchController {
         }
 
         return providersEnum;
+    }
+
+    public Response searchWithBody(Request req) {
+        List<Response> AllResponses = new ArrayList<Response>();
+
+        ItemsOrder order = ItemsOrder.valueOf(req.itemsOrder);
+
+        if (order == null) {
+            order = ItemsOrder.BestMatch;
+        }
+
+        for (ISearchProvider provider : searchProviders.values()) {
+            try {
+                Response resultsForProvider = provider.searchWithBody(req);
+                if (resultsForProvider != null) {
+                    AllResponses.add(resultsForProvider);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
+        return ResponseOrganizer.Organize(AllResponses, order);
     }
 }

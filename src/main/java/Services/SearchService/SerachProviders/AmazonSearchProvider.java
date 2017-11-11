@@ -1,5 +1,7 @@
 package Services.SearchService.SerachProviders;
 
+import DomainEntities.Request;
+import DomainEntities.Response;
 import DomainEntities.SearchResultEntity;
 import Utils.HttpRequests.GetRequest;
 import Utils.Parsers.IParser;
@@ -64,6 +66,11 @@ public class AmazonSearchProvider implements ISearchProvider {
         String response = getResponse(searchString);
         IParser parser = new XMLParser();
         return parser.parseSearchResults(response);
+    }
+
+    @Override
+    public Response searchWithBody(Request req) {
+        return null;
     }
 
     private String getResponse(String searchString) throws IOException, InvalidKeyException, NoSuchAlgorithmException {

@@ -1,14 +1,15 @@
 import static spark.Spark.*;
 
+import DomainEntities.Request;
+import DomainEntities.Response;
 import DomainEntities.SearchResultEntity;
 import Services.SearchService.SearchController;
 import Services.SearchService.SerachProviders.AmazonSearchProvider;
 import Services.SearchService.SerachProviders.ISearchProvider;
 import Services.SearchService.SerachProviders.ProviderFactory;
 import Utils.Common.ProvidersEnum;
-import org.apache.commons.logging.impl.Log4JLogger;
+import Utils.Parsers.JSONParser;
 import org.eclipse.jetty.util.log.Log;
-import spark.Request;
 
 import java.util.List;
 
@@ -30,6 +31,8 @@ public class Main {
         get("search/term/:term",
                 (req, res) -> { return sh.searchAllProviders(req.params(":term")); },
                 new JsonTransformer());
+        post("/Search",(req, res) -> { return sh.searchAllProviders(req.body()); },
+                new JsonTransformer());
     }
 
 
@@ -42,12 +45,14 @@ public class Main {
         return 4567;
     }
 
+
 }
 
 class ServerHub {
 
-    List<SearchResultEntity> searchAllProviders(String term) {
-        List<SearchResultEntity> results = SearchController.getInstance().search(term);
+    Response searchAllProviders(String term) {
+        Request req = JSONParser.parseRequest(term);
+        Response results = SearchController.getInstance().searchWithBody(req);
         return results;
     }
 

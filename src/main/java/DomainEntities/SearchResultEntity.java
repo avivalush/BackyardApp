@@ -4,17 +4,18 @@ import Utils.Common.ProvidersEnum;
 
 public class SearchResultEntity {
 
-    private String mAffiliateURL;
-    private String mPictureURL;
-    // in dollars
-    private String mPrice;
-    private double mRank;
-    private int mNumOfRanks;
-    private ProvidersEnum mProvider;
-    private String mDescription;
-    private String mTitle;
-    private String mCondition;
-    private int mItemSold;
+    public String mAffiliateURL;
+    public String mPictureURL;
+    public String mPrice;
+    public double mRank;
+    public int mNumOfRanks;
+    public ProvidersEnum mProvider;
+    public String mDescription;
+    public String mTitle;
+    public String mCondition;
+    public int mItemSold;
+
+    public SearchResultEntity() {}
 
     public SearchResultEntity(String affiliateURL, String pictureURL, String price, double rank, int numOfRanks,
                               ProvidersEnum provider, String description, String title, String condition, int itemSold) {
