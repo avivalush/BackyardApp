@@ -11,7 +11,7 @@ public class ServerHubTest {
 
     @Test
     public void searchAllProviders() throws Exception {
-        List<SearchResultEntity> results = hub.searchAllProviders("whiskey");
+        List<SearchResultEntity> results = (List<SearchResultEntity>) hub.searchAllProviders("whiskey");
         assert(results.size() == 9);
     }
 
